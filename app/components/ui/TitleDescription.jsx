@@ -2,15 +2,19 @@ import React from "react";
 
 const TitleDescription = () => {
   return (
-    <div className="flex select-none flex-col space-y-5">
+    <div className="mt-10 flex select-none flex-col items-center space-y-5 pt-20">
       <h1
         // onClick={clickLogo}
-        className="text-8xl font-semibold text-purple-400 hover:cursor-pointer"
+        className="text-6xl font-semibold text-purple-400 hover:cursor-pointer md:text-8xl"
       >
         PogInChat
       </h1>
-      <p className="font-medium text-white">
-        Upload a URL from a twitch vod and find your most hype moments.
+      <p className="text-md font-medium text-white text-center px-5 md:text-lg lg:text-xl">
+        Upload a URL from a <span className="text-purple-400">Twitch VOD</span>{" "}
+        and find your most{" "}
+        <span className="font-bold uppercase text-red-500">
+          hype moments!!!
+        </span>
       </p>
     </div>
   );

@@ -1,6 +1,8 @@
 import './globals.css'
 import Provider from './provider'
 import Header from './header'
+import Script from "next/script";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -8,7 +10,7 @@ export default function RootLayout({ children }) {
       <body>
         <Provider>
           <main>
-            {/* <Header /> */}
+            <Header />
             {children}
           </main>
         </Provider>

@@ -3,10 +3,10 @@ import TitleDescription from "../components/ui/TitleDescription";
 export default function Home() {
   return (
     <section
-      className={`items-centerfont-sans flex flex-col `}
+      className={`items-centerfont-sans flex flex-col`}
     >
       <TitleDescription />
-      <SearchVod />
+      <SearchVod variant='col' variantStyle='col'/>
     </section>
   );
 }

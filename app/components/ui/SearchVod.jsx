@@ -1,41 +1,61 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import Button from "./button";
 import TextField from "../form/TextField";
-const SearchVod = () => {
+import clsx from "clsx";
+import { useState } from "react";
+const baseStyles = {
+  col: "mt-20 flex  flex-col justify-center lg:space-x-5 ml-5 md:ml-7 lg:ml-0 lg:flex-row",
+  row: "mt-10 flex h-[46px] flex-row justify-center w-[1900px] space-x-5",
+};
+const variantStyles = {
+  col: "flex flex-row gap-3 mt-2 lg:mt-0",
+  row: "flex flex-row gap-3",
+};
+const SearchVod = ({ className, variant, variantStyle, ...props }) => {
+  className = clsx(baseStyles[variant], className);
+  const miniClass = clsx(variantStyles[variantStyle]);
+  const [url, setUrl] = useState("");
   return (
-    <div className="mt-10 flex h-[46px] w-[10%] lg:w-[30%] flex-row space-x-5">
+    <div className={className} {...props}>
       <TextField
-        className="flex w-[60%] flex-col text-start"
+        className="flex w-[90%] flex-col text-start lg:w-[40%]"
         id="url"
         name="url"
         type="url"
         label="TWITCH VOD URL"
+        onChange={(e) => setUrl(e.target.value.split("/")[4])}
         placeholder="https://www.twitch.tv/videos/xxxxxxx"
       />
-      <div className="flex flex-row gap-3">
+      <div className={miniClass}>
         <TextField
-          className="flex w-[35%] flex-col text-start"
+          className="flex w-[35%] flex-col text-start md:w-[40%]"
           id="start"
           name="start"
           type="text"
           label="START TIME"
           placeholder="https://www.twitch.tv/videos/xxxxxxx"
         />
-        <div className="mt-4">:</div>
+        <div className="hidden lg:mt-4 lg:block">:</div>
         <TextField
-          className="flex w-[35%] flex-col text-start"
+          className="flex w-[35%] flex-col text-start md:w-[40%]"
           id="end"
           name="end"
           type="text"
           label="END TIME"
           placeholder="https://www.twitch.tv/videos/xxxxxxx"
         />
-  
-        <Button className="mt-3 ml-3 px-2" variant="solid" color="purple" href={`/videos/1`}>
-          Submit
-        </Button>
+
+        {url && (
+          <Button
+            className="mt-3 "
+            variant="solid"
+            color="purple"
+            href={`/videos/${url}`}
+          >
+            Submit
+          </Button>
+        )}
       </div>
     </div>
   );

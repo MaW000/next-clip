@@ -20,11 +20,11 @@ export default function AuthLayout({ children }) {
                 <span className='uppercase font-medium'>Home</span>
               </Link>
               <div className='relative mt-12 sm:mt-16'>
-                <h1 className='text-center text-2xl font-medium tracking-tight text-gray-900'>
+                <h1 className='text-center text-2xl font-medium tracking-tight text-white'>
                   Sign in to your account
                 </h1>
               </div>
-              <div className='-mx-4 mt-10 flex-auto bg-white py-10 px-4 shadow-2xl shadow-gray-900/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24'>
+              <div className='-mx-4 rounded-xl mt-10 flex-auto bg-zinc-700 py-10 px-4 shadow-2xl shadow-gray-900/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24'>
                 {children}
               </div>
             </div>

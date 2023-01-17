@@ -1,9 +1,11 @@
-import React from 'react'
+"use client";
 
-const page = () => {
+const page = ({ params }) => {
   return (
-    <div>page</div>
-  )
-}
+    <>
+      <h1>a</h1>
+    </>
+  );
+};
 
-export default page
+export default page;
