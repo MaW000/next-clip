@@ -1,13 +1,8 @@
 "use client";
 import Script from "next/script";
+import {useState} from 'react'
+const VideoPlayer = ({ options }) => {
 
-const VideoPlayer = ({ videoId }) => {
-  var options = {
-    width: 1330,
-    height: 748,
-    video: videoId,
-    time: '0h0m1s'
-  };
   return (
     <>
       <Script

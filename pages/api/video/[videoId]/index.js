@@ -118,6 +118,7 @@ const handler = async (req, res) => {
             const video = {
               videoId: +videoId,
               comments: entry,
+              
             };
             const id = await prisma.Video.findMany({
               where: {

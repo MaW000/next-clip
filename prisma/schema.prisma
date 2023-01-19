@@ -55,11 +55,16 @@ model VerificationToken {
 
 model Video {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  videoId    Int
-  comments   Comment[] 
+  videoId    Int      @unique
+  comments   Comment[]
 }
 
 type Comment {
+  contentOffsetSeconds Int
+  messages Message[]
+}
+
+type Message {
   contentOffsetSeconds Int
   msg String
 }

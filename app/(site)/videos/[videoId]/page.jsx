@@ -1,14 +1,12 @@
 "use client";
-import VideoPlayer from "@/app/components/ui/VideoPlayer";
-import VideoData from "./VideoData";
+import VideoDash from '@/app/components/comp/VideoDash';
 
 const page = ({ params }) => {
-  
+
   return (
-    <main className="flex justify-center">
-      <VideoPlayer videoId={params.videoId} />
-      <VideoData videoId={params.videoId}/>
-    </main>
+    <>
+      <VideoDash params={params}/>
+    </>
   );
 };
 
