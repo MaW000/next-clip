@@ -1,5 +1,5 @@
 import VodInputs from "@/app/components/form/VodInputs";
-// import CommentData from "@/app/components/ui/CommentData";
+import CommentData from "@/app/components/ui/CommentData";
 import React from "react";
 import { useEffect, useState } from "react";
 const VideoData = ({ videoId, className }) => {
@@ -19,7 +19,16 @@ const VideoData = ({ videoId, className }) => {
       });
   }, [videoId]);
   function handleData(data) {
-    console.log(data);
+    fetch(`/api/video/comments/${videoId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res)
+      })
   }
 
   return (
@@ -29,7 +38,7 @@ const VideoData = ({ videoId, className }) => {
       ) : (
         <h1>Fetching comments...</h1>
       )}
-      {/* <CommentData id="63c7bb5a7045e5bffcb72bd7" /> */}
+      <CommentData id={videoId} />
     </div>
   );
 };
