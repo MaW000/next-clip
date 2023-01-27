@@ -3,7 +3,9 @@ import CommentData from "@/app/components/ui/CommentData";
 import React from "react";
 import { useEffect, useState } from "react";
 const VideoData = ({ videoId, className }) => {
-  const [status, setStatus] = useState();
+  const [status, setStatus] = useState(null);
+  const [data, setData] = useState(null);
+  //tells the server to download and save comments to db
   useEffect(() => {
     const endpoint = `/api/video/${videoId}`;
     fetch(endpoint, {
@@ -12,33 +14,36 @@ const VideoData = ({ videoId, className }) => {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then(async (res) => await res.json())
       .then((res) => {
-        console.log(res.status);
+        console.log(res)
         setStatus(res.status);
       });
   }, [videoId]);
+  //sends the paramaters your filtering for and returns filterd data
   function handleData(data) {
     fetch(`/api/video/comments/${videoId}`, {
-      method: 'GET',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify(data)
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res)
-      })
+        const { data } = res;
+        setData(data);
+      });
   }
-
+  console.log
   return (
     <div className={className}>
-      {status === "saved" ? (
+      {status ? (
         <VodInputs status={status} handleData={handleData} />
       ) : (
         <h1>Fetching comments...</h1>
       )}
-      <CommentData id={videoId} />
+      {data && <CommentData data={data} />}
     </div>
   );
 };

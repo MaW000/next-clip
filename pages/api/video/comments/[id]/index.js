@@ -1,9 +1,11 @@
 const handler = async (req, res) => {
-  if (req.method === "GET") {
+  if (req.method === "POST") {
     try {
       const { id } = req.query;
+      const { keyword, num } = req.body
       const interval = 5;
-      console.log(id)
+      console.log(keyword, num)
+      //fetch comments using videoId
       const messageArrays = await prisma.Video.findUnique({
         where: {
           videoId: +id,
@@ -12,24 +14,42 @@ const handler = async (req, res) => {
           comments: true,
         },
       });
-     
-      console.log(messageArrays)
-      const { comments } = messageArrays
-      let currTime = 0
-      let counter = 0
-      for(let i = 0; i < comments.length; i++) {
-        for(let j = 0; j < comments[i].messages.length; j++) {
-          
-          console.log(currTime, counter, comments[i].messages[j].contentOffsetSeconds)
-          if(counter === 0){
-            currTime = comments[i].messages[j].contentOffsetSeconds
+
+      const { comments } = messageArrays;
+      //build a object that has the intervals of the video as keys and comments typed within that interval as values
+      let results = {};
+      for (let i = 0; i < comments.length; i++) {
+        for (let j = 0; j < comments[i].messages.length; j++) {
+          function timeCalc(sec) {
+            const minutes = Math.floor(sec / 60);
+            const extraSec = sec % 60;
+            const extraMinutes = minutes % 60;
+            const hours = Math.floor(minutes / 60);
+            return `${hours}h:${extraMinutes}m:${extraSec}s`;
           }
-          counter += 1
-          if(counter === 15) counter = 0;
+          const text = comments[i].messages[j].msg.toLowerCase();
+          const x = Math.floor(comments[i].messages[j].contentOffsetSeconds / 5);
+          const begin = x * interval
+          const end = (x + 1) * interval
+          const currTimea = timeCalc(begin) + " : " + timeCalc(end);
+          if (!results[currTimea]) {
+            results[currTimea] = [];
+          }
+
+          if (text.includes(keyword)) {
+            results[currTimea].push(comments[i].messages[j]);
+          }
         }
       }
-      console.log(messageArrays);
-      return res.status(200).send({ data: video });
+
+      const filtered = Object.keys(results)
+        .filter((key) => results[key].length >= num)
+        .reduce((obj, key) => {
+          return Object.assign(obj, {
+            [key]: results[key],
+          });
+        }, {});
+      return res.status(200).send({ data: filtered });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }

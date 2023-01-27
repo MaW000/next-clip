@@ -1,6 +1,8 @@
 const handler = async (req, res) => {
   try {
     const { videoId } = req.query;
+    let counter = 0
+    let comments = []
     async function getComments(cursor, commentId) {
       if (cursor) {
         return fetch("https://gql.twitch.tv/gql", {
@@ -53,21 +55,39 @@ const handler = async (req, res) => {
               contentOffsetSeconds: second,
               messages: mapped,
             };
-            const addTag = await prisma.Video.update({
-              where: {
-                id: commentId,
-              },
-              data: {
-                comments: {
-                  push: entry,
-                },
-              },
-            });
+            comments.push(entry)
+         
 
-            if (hasNextPage && second < 5000) {
+            if (hasNextPage) {
+              counter++
+              if(counter > 500) {
+                const addTag = await prisma.Video.update({
+                  where: {
+                    id: commentId,
+                  },
+                  data: {
+                    comments: {
+                      push: comments,
+                    },
+                  },
+                });
+                counter = 0
+                comments = []
+              }
+             
               getComments(cursor, commentId);
             } else {
-              return res.status(200).send({ status: "done" });
+              const addTag = await prisma.Video.update({
+                where: {
+                  id: commentId,
+                },
+                data: {
+                  comments: {
+                    push: comments,
+                  },
+                },
+              });
+              return { status: "saving complete" };
             }
           });
       } else {
@@ -135,12 +155,16 @@ const handler = async (req, res) => {
                 comment.id
               );
             } else {
-              return res.status(200).send({ status: "saved" });
+              return { status: "saved" };
             }
           });
       }
     }
-    getComments();
+    // console.log(getComments())
+    const status = await getComments()
+    
+    return res.status(200).send({ status: "saved" });
+    
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
