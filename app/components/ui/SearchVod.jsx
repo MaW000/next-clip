@@ -28,7 +28,7 @@ const SearchVod = ({ className, variant, variantStyle, ...props }) => {
     }
     console.log(matches)
     if(matches[0].length === 10) {
-      router.push(`/videos/${url}`)
+      router.push(`/videos/${matches[0]}`)
     }
   }
   console.log(router)
