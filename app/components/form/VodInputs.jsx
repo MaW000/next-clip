@@ -4,7 +4,7 @@ import TextField from './TextField';
 const VodInputs = ({handleData}) => {
     const [data, setData] = useState({
         keyword: '',
-        num: undefined
+        num: 0,
     })
     return (
         <>
