@@ -160,8 +160,8 @@ const handler = async (req, res) => {
           });
       }
     }
-    // console.log(getComments())
-    const status = await getComments()
+
+    getComments()
     
     return res.status(200).send({ status: "saved" });
     
