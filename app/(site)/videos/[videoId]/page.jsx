@@ -12,6 +12,7 @@ const page = ({ params }) => {
     video: params.videoId,
     time: "0h0m1s",
   };
+  
   return (
     <div className="grid grid-cols-12">
       
