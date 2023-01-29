@@ -49,7 +49,7 @@ const handler = async (req, res) => {
             [key]: results[key],
           });
         }, {});
-      return res.status(200).send({ data: filtered });
+      return res.status(200).send({ data: 'word' });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
