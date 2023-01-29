@@ -22,15 +22,20 @@ const VideoData = ({ videoId, className }) => {
   }, [videoId]);
   //sends the paramaters your filtering for and returns filterd data
   function handleData(data) {
+    const dat = {
+      keyword: 'lol',
+      num: 2,
+  }
     fetch(`/api/video/comments/${videoId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(dat)
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res)
         const { data } = res;
         setData(data);
       });
