@@ -31,7 +31,7 @@ const VideoData = ({ videoId, className }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(dat)
+      body: JSON.stringify(data)
     })
       .then((res) => res.json())
       .then((res) => {
