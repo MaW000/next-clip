@@ -1,11 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 const handler = async (req, res) => {
   try {
     const { videoId } = req.query;
-    let counter = 0
-    let comments = []
     async function getComments(cursor, commentId) {
       if (cursor) {
         return fetch("https://gql.twitch.tv/gql", {
@@ -58,39 +53,21 @@ const handler = async (req, res) => {
               contentOffsetSeconds: second,
               messages: mapped,
             };
-            comments.push(entry)
-         
+            const addTag = await prisma.Video.update({
+              where: {
+                id: commentId,
+              },
+              data: {
+                comments: {
+                  push: entry,
+                },
+              },
+            });
 
-            if (hasNextPage) {
-              counter++
-              if(counter > 500) {
-                const addTag = await prisma.Video.update({
-                  where: {
-                    id: commentId,
-                  },
-                  data: {
-                    comments: {
-                      push: comments,
-                    },
-                  },
-                });
-                counter = 0
-                comments = []
-              }
-             
+            if (hasNextPage && second < 5000) {
               getComments(cursor, commentId);
             } else {
-              const addTag = await prisma.Video.update({
-                where: {
-                  id: commentId,
-                },
-                data: {
-                  comments: {
-                    push: comments,
-                  },
-                },
-              });
-              return { status: "saving complete" };
+              return res.status(200).send({ status: "done" });
             }
           });
       } else {
@@ -158,16 +135,12 @@ const handler = async (req, res) => {
                 comment.id
               );
             } else {
-              return { status: "saved" };
+              return res.status(200).send({ status: "saved" });
             }
           });
       }
     }
-
-    getComments()
-    
-    return res.status(200).send({ status: "saved" });
-    
+    getComments();
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
