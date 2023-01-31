@@ -131,12 +131,14 @@ const handler = async (req, res) => {
 
             if (id.length < 1) {
               const comment = await prisma.Video.create({ data: video });
-              return getComments(
+              
+              getComments(
                 data[0].data.video.comments.edges[
                   data[0].data.video.comments.edges.length - 1
                 ].cursor,
                 comment.id
               );
+              return res.status(200).send({ status: "saved" })
             } else {
               return res.status(200).send({ status: "saved" });
             }
