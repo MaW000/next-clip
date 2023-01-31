@@ -7,7 +7,6 @@ const handler = async (req, res) => {
         const { id } = req.query;
         const { keyword, num } = req.body
         const interval = 5;
-        console.log(keyword, num)
         //fetch comments using videoId
         const messageArrays = await prisma.Video.findUnique({
           where: {
@@ -52,9 +51,6 @@ const handler = async (req, res) => {
               [key]: results[key],
             });
           }, {});
-          console.log(filtered)
-         
-      
       return res.status(200).send({ data: filtered });
     } catch (error) {
       return res.status(500).json({ error: error.message });
