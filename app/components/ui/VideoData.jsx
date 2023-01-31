@@ -22,10 +22,6 @@ const VideoData = ({ videoId, className }) => {
   }, [videoId]);
   //sends the paramaters your filtering for and returns filterd data
   function handleData(data) {
-    const dat = {
-      keyword: 'lol',
-      num: 2,
-  }
     fetch(`/api/video/comments/${videoId}`, {
       method: "POST",
       headers: {
@@ -40,14 +36,14 @@ const VideoData = ({ videoId, className }) => {
         setData(data);
       });
   }
-  console.log
+
   return (
     <div className={className}>
-      {status ? (
+      {status === 'saved' ? (
         <VodInputs status={status} handleData={handleData} />
       ) : (
-        <h1>Fetching comments...</h1>
-      )}
+        <h1 className="mx-10 text-xl font-semibold text-slate-900 my-5">Fetching comments this will take a while refresh in a few minutes...</h1>
+      )} 
       {data && <CommentData data={data} />}
     </div>
   );

@@ -57,6 +57,7 @@ model Video {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   videoId    Int      @unique
   comments   Comment[]
+  complete   Boolean
 }
 
 type Comment {

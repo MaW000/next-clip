@@ -1,9 +1,10 @@
-import { PrismaClient } from "@prisma/client";
 import prisma from '@/lib/prisma/index'
 
 const handler = async (req, res) => {
   try {
     const { videoId } = req.query;
+    let counter = 0
+    let comments = []
     async function getComments(cursor, commentId) {
       if (cursor) {
         return fetch("https://gql.twitch.tv/gql", {
@@ -37,7 +38,7 @@ const handler = async (req, res) => {
               data[0].data.video.comments.edges[
                 data[0].data.video.comments.edges.length - 1
               ].node.contentOffsetSeconds;
-            console.log(second);
+            
             const cursor =
               data[0].data.video.comments.edges[
                 data[0].data.video.comments.edges.length - 1
@@ -56,21 +57,40 @@ const handler = async (req, res) => {
               contentOffsetSeconds: second,
               messages: mapped,
             };
-            const addTag = await prisma.Video.update({
-              where: {
-                id: commentId,
-              },
-              data: {
-                comments: {
-                  push: entry,
-                },
-              },
-            });
-
-            if (hasNextPage && second < 5000) {
+            comments.push(entry)
+            if (hasNextPage) {
+              counter++
+              if(counter > 500) {
+                const addTag = await prisma.Video.update({
+                  where: {
+                    id: commentId,
+                  },
+                  data: {
+                    comments: {
+                      push: comments,
+                    },
+                  },
+                });
+                counter = 0
+                comments = []
+              }
+              console.log(second);
               getComments(cursor, commentId);
             } else {
-              return res.status(200).send({ status: "done" });
+              const addTag = await prisma.Video.update({
+                where: {
+                  id: commentId,
+                },
+                data: {
+                  comments: {
+                    push: comments,
+                  },
+                  complete: true
+                },
+              });
+              counter = 0
+              comments = []
+              return { status: "saving complete" };
             }
           });
       } else {
@@ -121,14 +141,14 @@ const handler = async (req, res) => {
             const video = {
               videoId: +videoId,
               comments: entry,
-              
+              complete: false
             };
             const id = await prisma.Video.findMany({
               where: {
                 videoId: +videoId,
               },
             });
-
+          
             if (id.length < 1) {
               const comment = await prisma.Video.create({ data: video });
               
@@ -138,14 +158,17 @@ const handler = async (req, res) => {
                 ].cursor,
                 comment.id
               );
-              return res.status(200).send({ status: "saved" })
+              return { status: "saving" };
+            } else if (id[0].complete) {
+              return { status: 'saved'}
             } else {
-              return res.status(200).send({ status: "saved" });
+              return { status: 'saving'}
             }
           });
       }
     }
-    getComments();
+    const { status } = await getComments();
+    return res.status(200).send({ status: status });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
