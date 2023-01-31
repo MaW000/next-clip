@@ -44,7 +44,6 @@ const handler = async (req, res) => {
                 data[0].data.video.comments.edges.length - 1
               ].cursor;
             const mapped = data[0].data.video.comments.edges.map((comment) => {
-              console.log(comment)
               let msg = "";
               for (let i = 0; i < comment.node.message.fragments.length; i++) {
                 msg += comment.node.message.fragments[i].text;
@@ -158,7 +157,6 @@ const handler = async (req, res) => {
                 videoId: +videoId,
               },
             });
-            console.log(id)
             if (id.length < 1) {
               
               const comment = await prisma.Video.create({ data: video });
