@@ -60,7 +60,7 @@ const handler = async (req, res) => {
             comments.push(entry)
             if (hasNextPage) {
               counter++
-              if(counter > 500) {
+              if(counter > 250) {
                 const addTag = await prisma.Video.update({
                   where: {
                     id: commentId,
@@ -74,7 +74,7 @@ const handler = async (req, res) => {
                 counter = 0
                 comments = []
               }
-              console.log(second);
+      
               getComments(cursor, commentId);
             } else {
               const addTag = await prisma.Video.update({
@@ -123,7 +123,9 @@ const handler = async (req, res) => {
               data[0].data.video.comments.edges[
                 data[0].data.video.comments.edges.length - 1
               ].node.contentOffsetSeconds;
+           
             const mapped = data[0].data.video.comments.edges.map((comment) => {
+           
               let msg = "";
               for (let i = 0; i < comment.node.message.fragments.length; i++) {
                 msg += comment.node.message.fragments[i].text;
@@ -162,11 +164,13 @@ const handler = async (req, res) => {
             } else if (id[0].complete) {
               return { status: 'saved'}
             } else {
+              console.log(id[0].comments[id[0].comments.length-1])
               return { status: 'saving'}
             }
           });
       }
     }
+
     const { status } = await getComments();
     return res.status(200).send({ status: status });
   } catch (error) {
