@@ -16,7 +16,7 @@ const VideoData = ({ videoId, className }) => {
     })
       .then(async (res) => await res.json())
       .then((res) => {
-        console.log(res)
+    
         setStatus(res.status);
       });
   }, [videoId]);
@@ -31,7 +31,7 @@ const VideoData = ({ videoId, className }) => {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res)
+  
         const { data } = res;
         setData(data);
       });

@@ -10,7 +10,7 @@ const VideoPlayer = (params) => {
     time: "0h0m1s",
   };
   function seek(){
-    console.log(player.setVolume)
+
   }
  
   return (

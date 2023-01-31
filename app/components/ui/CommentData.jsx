@@ -2,7 +2,7 @@ import React from 'react'
 
 
 const CommentData = ({data}) => {
-  console.log(data)
+  
   return (
     <div className="flex flex-col bg-custom-midblack w-[350px] h-[300px] my-10 rounded-md font-sans">
     <div className="text-sm font-medium py-3 border-b border-b-custom-greyborder text-center">

@@ -22,16 +22,16 @@ const SearchVod = ({ className, variant, variantStyle, ...props }) => {
   const router = useRouter();
   function handleUrl() {
     var matches = url.match(/\d+/g);
-    console.log(matches)
+  
     if (matches === null) {
       setError("Please enter a valid VideoID");
     }
-    console.log(matches)
+  
     if(matches[0].length === 10) {
       router.push(`/videos/${matches[0]}`)
     }
   }
-  console.log(router)
+
   return (
     <div className={className} {...props}>
       <TextField
