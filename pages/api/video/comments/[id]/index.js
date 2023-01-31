@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from '@/lib/prisma/index'
 
-const prisma = new PrismaClient();
 const handler = async (req, res) => {
   if (req.method === "POST") {
     try {
