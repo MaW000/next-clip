@@ -32,7 +32,6 @@ const handler = async (req, res) => {
         })
           .then((data) => data.json())
           .then(async (data) => {
-            console.log(data)
             const hasNextPage =
               data[0].data.video.comments.pageInfo.hasNextPage;
             const second =
@@ -63,6 +62,7 @@ const handler = async (req, res) => {
             comments.push(entry)
             if (hasNextPage) {
               counter++
+              console.log(second)
               if(counter > 250) {
                 const addTag = await prisma.Video.update({
                   where: {
@@ -160,7 +160,7 @@ const handler = async (req, res) => {
             });
             console.log(id)
             if (id.length < 1) {
-              // console.log(video.comments.messages)
+              
               const comment = await prisma.Video.create({ data: video });
              
               getComments(
