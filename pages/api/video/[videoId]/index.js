@@ -32,6 +32,7 @@ const handler = async (req, res) => {
         })
           .then((data) => data.json())
           .then(async (data) => {
+            console.log(data)
             const hasNextPage =
               data[0].data.video.comments.pageInfo.hasNextPage;
             const second =
@@ -44,11 +45,13 @@ const handler = async (req, res) => {
                 data[0].data.video.comments.edges.length - 1
               ].cursor;
             const mapped = data[0].data.video.comments.edges.map((comment) => {
+              console.log(comment)
               let msg = "";
               for (let i = 0; i < comment.node.message.fragments.length; i++) {
                 msg += comment.node.message.fragments[i].text;
               }
               return {
+                cursor: comment.cursor,
                 contentOffsetSeconds: comment.node.contentOffsetSeconds,
                 msg: msg,
               };
@@ -119,18 +122,23 @@ const handler = async (req, res) => {
         })
           .then((data) => data.json())
           .then(async (data) => {
+       
             const second =
               data[0].data.video.comments.edges[
                 data[0].data.video.comments.edges.length - 1
               ].node.contentOffsetSeconds;
            
             const mapped = data[0].data.video.comments.edges.map((comment) => {
-           
+              let cur = ''
               let msg = "";
               for (let i = 0; i < comment.node.message.fragments.length; i++) {
                 msg += comment.node.message.fragments[i].text;
               }
+              if(comment.cursor){
+                cur = comment.cursor
+              }
               return {
+                cursor: comment.cursor,
                 contentOffsetSeconds: comment.node.contentOffsetSeconds,
                 msg: msg,
               };
@@ -150,10 +158,11 @@ const handler = async (req, res) => {
                 videoId: +videoId,
               },
             });
-          
+            console.log(id)
             if (id.length < 1) {
+              // console.log(video.comments.messages)
               const comment = await prisma.Video.create({ data: video });
-              
+             
               getComments(
                 data[0].data.video.comments.edges[
                   data[0].data.video.comments.edges.length - 1
@@ -164,7 +173,7 @@ const handler = async (req, res) => {
             } else if (id[0].complete) {
               return { status: 'saved'}
             } else {
-              console.log(id[0].comments[id[0].comments.length-1])
+             
               return { status: 'saving'}
             }
           });
