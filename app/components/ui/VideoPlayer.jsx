@@ -9,28 +9,24 @@ const VideoPlayer = (params) => {
     video: params.videoId,
     time: "0h0m1s",
   };
-  function seek(){
 
-  }
- 
   return (
-    <>
+    <div className={`${params.className}`}>
       {width && (
-        <div className={params.className}>
-           <Script
+        <div className={`ml-10 rounded-lg `}>
+          <Script
             type="text/javascript"
             src="https://player.twitch.tv/js/embed/v1.js"
             onLoad={() => {
               let player = new Twitch.Player("player", options);
               player.setVolume(0.5);
             }}
-            
-      />
-     
+          />
+
           <div id="player" className="rounded-lg"></div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

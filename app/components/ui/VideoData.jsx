@@ -2,7 +2,7 @@ import VodInputs from "@/app/components/form/VodInputs";
 import CommentData from "@/app/components/ui/CommentData";
 import React from "react";
 import { useEffect, useState } from "react";
-const VideoData = ({ videoId, className }) => {
+const VideoData = ({ videoId, className, player }) => {
   const [status, setStatus] = useState(null);
   const [data, setData] = useState(null);
   //tells the server to download and save comments to db
@@ -16,7 +16,6 @@ const VideoData = ({ videoId, className }) => {
     })
       .then(async (res) => await res.json())
       .then((res) => {
-    
         setStatus(res.status);
       });
   }, [videoId]);
@@ -27,11 +26,10 @@ const VideoData = ({ videoId, className }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
       .then((res) => res.json())
       .then((res) => {
-  
         const { data } = res;
         setData(data);
       });
@@ -39,12 +37,21 @@ const VideoData = ({ videoId, className }) => {
 
   return (
     <div className={className}>
-      {status === 'saved' ? (
+      {status === "saved" ? (
         <VodInputs status={status} handleData={handleData} />
       ) : (
-        <h1 className="mx-10 text-xl font-semibold text-slate-900 my-5">Fetching comments this will take a while refresh in a few minutes...</h1>
-      )} 
-      {data && <CommentData data={data} />}
+        <h1 className="mx-10 my-5 text-xl font-semibold text-slate-900">
+          Fetching comments this will take a while refresh in a few minutes...
+        </h1>
+      )}
+      {status === "fetching" && <button>Search anyways</button>}
+      {data && (
+        <CommentData
+          data={data}
+          player={player}
+          className={"items-center justify-center text-center align-middle"}
+        />
+      )}
     </div>
   );
 };

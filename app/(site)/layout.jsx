@@ -1,6 +1,6 @@
-import './globals.css'
-import Provider from './provider'
-import Header from './header'
+import "./globals.css";
+import Provider from "./provider";
+import Header from "./header";
 import Script from "next/script";
 
 export default function RootLayout({ children }) {
@@ -16,5 +16,5 @@ export default function RootLayout({ children }) {
         </Provider>
       </body>
     </html>
-  )
+  );
 }

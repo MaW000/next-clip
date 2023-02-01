@@ -172,7 +172,7 @@ const handler = async (req, res) => {
               return { status: 'saved'}
             } else {
              
-              return { status: 'saving'}
+              return { status: 'fetching'}
             }
           });
       }
