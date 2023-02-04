@@ -3,9 +3,9 @@ import React from "react";
 const CommentData = ({ data, className, player }) => {
   return (
     <div
-      className={`my-10 flex h-[300px] w-[350px] flex-col rounded-md font-sans ${className}`}
+      className={`my-5 flex h-[300px] w-[350px] flex-col rounded-md font-sans ${className}`}
     >
-      <div className=" w-full border-b  py-3 text-center text-xl text-sm font-medium">
+      <div className=" w-full border-b   text-center text-xl  font-medium">
         TOP MOMENTS
       </div>
       <div className="scrollbar mt-1 overflow-hidden overflow-y-scroll">
