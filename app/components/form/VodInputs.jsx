@@ -55,7 +55,7 @@ const VodInputs = ({ handleData }) => {
           className="w-[50%] items-center text-center "
           onClick={() => {
             handleData(data);
-            setData({ keyword: "", num: 0 });
+            setData({ keyword: "", num: undefined, interval: undefined });
           }}
         >
           Submit
