@@ -1,9 +1,7 @@
-import Script from "next/script";
-`use client`;
 export default function Head() {
   return (
     <>
-      <title>Clip dooaaasdfo</title>
+      <title>Lets Filter</title>
 
       <meta content="width=device-width, initial-scale=1" name="viewport" />
       <meta

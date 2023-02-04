@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import VideoPlayer from "@/app/components/ui/VideoPlayer";
+
 import VideoData from "@/app/components/ui/VideoData";
 import VideoScript from "@/app/components/comp/VideoScript";
 import Script from "next/script";

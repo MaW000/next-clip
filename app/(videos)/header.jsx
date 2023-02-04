@@ -12,10 +12,8 @@ const Header = () => {
 
     if (matches === null) {
       setError("Please enter a valid VideoID");
-    }
-
-    if (matches[0].length === 10) {
-      router.push(`/video/${matches[0]}`);
+    } else if (matches[0].length === 10) {
+      router.replace(`/video/${matches[0]}`);
     }
   }
 
