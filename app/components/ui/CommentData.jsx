@@ -14,7 +14,7 @@ const CommentData = ({ data, className, player }) => {
             {data &&
               Object.keys(data).map((time, i) => (
                 <button
-                  className=""
+                  className="text-blue-400 underline"
                   key={i}
                   onClick={() =>
                     player.seek(parseInt(data[time][0].contentOffsetSeconds))
