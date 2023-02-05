@@ -65,6 +65,7 @@ model Comments {
   videoId           Int
   index             Int?
   messages          Messages[]
+  hasNextPage       Boolean
   lastCommentSecond Int?
   video             Video      @relation(fields: [videoId], references: [videoId])
 }

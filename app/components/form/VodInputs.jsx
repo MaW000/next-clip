@@ -4,8 +4,8 @@ import TextField from "./TextField";
 const VodInputs = ({ handleData }) => {
   const [data, setData] = useState({
     keyword: "",
-    num: undefined,
-    interval: undefined,
+    num: "",
+    interval: "",
   });
   return (
     <>
@@ -55,7 +55,7 @@ const VodInputs = ({ handleData }) => {
           className="w-[50%] items-center text-center "
           onClick={() => {
             handleData(data);
-            setData({ keyword: "", num: undefined, interval: undefined });
+            setData({ keyword: "", num: "", interval: "" });
           }}
         >
           Submit

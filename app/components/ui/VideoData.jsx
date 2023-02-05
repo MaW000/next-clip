@@ -34,6 +34,7 @@ const VideoData = ({ videoId, className, player }) => {
       .then((res) => res.json())
       .then((res) => {
         const { data } = res;
+        console.log(data);
         setData(data);
       });
   }

@@ -6,7 +6,6 @@ const handler = async (req, res) => {
     let counter = 0;
     let commentsArr = [];
     let commentIndex = 0;
-    let prevIndex = 0;
     let createNew = false;
     async function getComments(cursor, commentId) {
       if (cursor && createNew) {
@@ -62,48 +61,19 @@ const handler = async (req, res) => {
               contentOffsetSeconds: second,
               msgs: mapped,
             };
-
-            const messages = {
-              contentOffsetSeconds: second,
-              msgs: mapped,
-            };
             const comments = {
               videoId: +videoId,
+              hasNextPage: hasNextPage,
               index: commentIndex,
-              messages: messages,
+              messages: entry,
             };
             const commentsDoc = await prisma.Comments.create({
               data: comments,
             });
-            return getComments(cursor, commentsDoc.id);
-            if (hasNextPage && counter === 0) {
-              counter++;
-              console.log(commentsDoc);
+            if (hasNextPage) {
               return getComments(cursor, commentsDoc.id);
-            } else if (hasNextPage) {
-              commentsArr.push(entry);
-              if (counter > 2) {
-                const addComments = await prisma.Comments.update({
-                  where: {
-                    id: commentId,
-                  },
-                  data: {
-                    lastCommentSecond: second,
-                    messages: {
-                      push: comments,
-                    },
-                  },
-                });
-                console.log(addComments.messages.length);
-                counter = 0;
-                commentsArr = [];
-                if (addComments.messages.length > 4) {
-                  commentIndex++;
-                  return getComments(cursor, commentId);
-                } else {
-                  return getComments(cursor, commentId);
-                }
-              }
+            } else {
+              console.log("saving complete");
             }
           });
       } else if (cursor) {
@@ -162,23 +132,23 @@ const handler = async (req, res) => {
 
             if (hasNextPage) {
               counter++;
-              console.log(second);
-              if (counter > 60) {
-                const addComments = await prisma.Comments.update({
+              if (counter > 250) {
+                const updateComments = await prisma.Comments.update({
                   where: {
                     id: commentId,
                   },
                   data: {
                     lastCommentSecond: second,
+                    hasNextPage: hasNextPage,
                     messages: {
                       push: commentsArr,
                     },
                   },
                 });
-                console.log(addComments.messages.length);
+                console.log(second);
                 counter = 0;
                 commentsArr = [];
-                if (addComments.messages.length > 150) {
+                if (updateComments.messages.length > 500) {
                   commentIndex++;
                   createNew = true;
                   return getComments(cursor, commentId);
@@ -194,14 +164,24 @@ const handler = async (req, res) => {
                 },
                 data: {
                   lastCommentSecond: second,
+                  hasNextPage: false,
                   messages: {
                     push: commentsArr,
                   },
                 },
               });
+              const id = await prisma.Video.update({
+                where: {
+                  videoId: +videoId,
+                },
+                data: {
+                  complete: true,
+                },
+              });
+
               counter = 0;
               commentsArr = [];
-              return { status: "saving complete" };
+              console.log("Save Complete");
             }
           });
       } else {
@@ -230,19 +210,18 @@ const handler = async (req, res) => {
         })
           .then((data) => data.json())
           .then(async (data) => {
-            const second =
+            const hasNextPage =
+              data[0].data.video.comments.pageInfo.hasNextPage;
+            const lastComment =
               data[0].data.video.comments.edges[
                 data[0].data.video.comments.edges.length - 1
-              ].node.contentOffsetSeconds;
-
+              ];
+            const second = lastComment.node.contentOffsetSeconds;
+            const lastCommentCursor = lastComment.cursor;
             const mapped = data[0].data.video.comments.edges.map((comment) => {
-              let cur = "";
               let msg = "";
               for (let i = 0; i < comment.node.message.fragments.length; i++) {
                 msg += comment.node.message.fragments[i].text;
-              }
-              if (comment.cursor) {
-                cur = comment.cursor;
               }
               return {
                 cursor: comment.cursor,
@@ -256,7 +235,8 @@ const handler = async (req, res) => {
             };
             const comments = {
               videoId: +videoId,
-
+              hasNextPage: hasNextPage,
+              index: commentIndex,
               messages: messages,
             };
             const video = {
@@ -274,13 +254,7 @@ const handler = async (req, res) => {
               const commentsDoc = await prisma.Comments.create({
                 data: comments,
               });
-              // console.log(commentsDoc.id);
-              getComments(
-                data[0].data.video.comments.edges[
-                  data[0].data.video.comments.edges.length - 1
-                ].cursor,
-                commentsDoc.id
-              );
+              getComments(lastCommentCursor, commentsDoc.id);
               return { status: "saving" };
             } else if (id[0].complete) {
               return { status: "saved" };
