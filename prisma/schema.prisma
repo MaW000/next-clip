@@ -39,7 +39,7 @@ model Account {
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
-  userId       String  @db.ObjectId
+  userId       String   @db.ObjectId
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -54,19 +54,29 @@ model VerificationToken {
 }
 
 model Video {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  videoId    Int      @unique
-  comments   Comment[]
-  complete   Boolean
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  videoId  Int        @unique
+  comments Comments[]
+  complete Boolean
 }
 
-type Comment {
-  contentOffsetSeconds Int
-  messages Message[]
+model Comments {
+  id                String     @id @default(auto()) @map("_id") @db.ObjectId
+  videoId           Int
+  index             Int?
+  messages          Messages[]
+  hasNextPage       Boolean
+  lastCommentSecond Int?
+  video             Video      @relation(fields: [videoId], references: [videoId])
 }
 
-type Message {
-  cursor String? 
+type Messages {
   contentOffsetSeconds Int
-  msg String
+  msgs                 msg[]
+}
+
+type msg {
+  cursor               String?
+  contentOffsetSeconds Int
+  msg                  String
 }
