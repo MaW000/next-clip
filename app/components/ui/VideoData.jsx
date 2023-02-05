@@ -46,7 +46,7 @@ const VideoData = ({ videoId, className, player }) => {
     })
       .then(async (res) => await res.json())
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       });
   }
   return (
@@ -73,7 +73,6 @@ const VideoData = ({ videoId, className, player }) => {
 
           <button
             onClick={() => {
-              console.log("1");
               router.reload();
             }}
             className="mx-10 my-5 text-center text-2xl font-semibold text-slate-900"
