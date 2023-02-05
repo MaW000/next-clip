@@ -54,10 +54,16 @@ model VerificationToken {
 }
 
 model Video {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  videoId  Int        @unique
-  comments Comments[]
-  complete Boolean
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  videoId   Int        @unique
+  title     String?
+  lengthSec Int?
+  thumbnail String?
+  streamer  String?
+  views     Int?
+  language  String?
+  comments  Comments[]
+  complete  Boolean
 }
 
 model Comments {

@@ -4,8 +4,12 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['github.com', 'lh3.googleusercontent.com']
-  }
-}
+    domains: [
+      "github.com",
+      "lh3.googleusercontent.com",
+      "static-cdn.jtvnw.net",
+    ],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

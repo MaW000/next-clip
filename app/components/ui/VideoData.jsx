@@ -34,7 +34,7 @@ const VideoData = ({ videoId, className, player }) => {
       .then((res) => res.json())
       .then((res) => {
         const { data } = res;
-        console.log(data);
+
         setData(data);
       });
   }
@@ -48,6 +48,19 @@ const VideoData = ({ videoId, className, player }) => {
       .then(async (res) => await res.json())
       .then((res) => {
         // console.log(res);
+      });
+  }
+  function forceDelete() {
+    fetch(`/api/video/${videoId}/delete`, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(async (res) => await res.json())
+      .then((res) => {
+        console.log(res);
+        router.push("/");
       });
   }
   return (
@@ -71,15 +84,6 @@ const VideoData = ({ videoId, className, player }) => {
               Fetching comments this will take a while...
             </h1>
           </div>
-
-          <button
-            onClick={() => {
-              router.reload();
-            }}
-            className="mx-10 my-5 text-center text-2xl font-semibold text-slate-900"
-          >
-            Refresh the page if your video did not start playing
-          </button>
         </div>
       )}
       <div className="m-12 flex justify-center rounded-lg bg-slate-800">
@@ -91,6 +95,14 @@ const VideoData = ({ videoId, className, player }) => {
           />
         )}
       </div>
+      <button
+        onClick={() => {
+          forceDelete();
+        }}
+        className="mx-32  my-5 justify-center rounded-md bg-slate-800 px-1 py-2  text-center text-2xl font-semibold text-slate-900"
+      >
+        Delete Comments
+      </button>
     </div>
   );
 };

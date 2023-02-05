@@ -132,7 +132,8 @@ const handler = async (req, res) => {
 
             if (hasNextPage) {
               counter++;
-              if (counter > 250) {
+              console.log(second);
+              if (counter > 150) {
                 const updateComments = await prisma.Comments.update({
                   where: {
                     id: commentId,
@@ -145,10 +146,10 @@ const handler = async (req, res) => {
                     },
                   },
                 });
-                console.log(second);
                 counter = 0;
                 commentsArr = [];
-                if (updateComments.messages.length > 500) {
+                if (updateComments.messages.length > 290) {
+                  console.log(second, "SAVING COMMENTS");
                   commentIndex++;
                   createNew = true;
                   return getComments(cursor, commentId);
@@ -254,6 +255,7 @@ const handler = async (req, res) => {
               const commentsDoc = await prisma.Comments.create({
                 data: comments,
               });
+              getVideoData(+videoId);
               getComments(lastCommentCursor, commentsDoc.id);
               return { status: "saving" };
             } else if (id[0].complete) {
@@ -264,8 +266,8 @@ const handler = async (req, res) => {
           });
       }
     }
-    async function getVideoData() {
-      return fetch("https://api.twitch.tv/helix/videos?id=1698572786", {
+    async function getVideoData(id) {
+      return fetch(`https://api.twitch.tv/helix/videos?id=${id}`, {
         method: "GET",
         headers: {
           Authorization: "Bearer kkme0h063j58yzhtenquyc3k8hd58a",
@@ -273,9 +275,43 @@ const handler = async (req, res) => {
         },
       })
         .then((data) => data.json())
-        .then((data) => console.log(data));
+        .then(async (result) => {
+          let { data } = result;
+          data = data[0];
+
+          //Title handling
+          const titleString = data.title.replace(/[^a-z]/gi, " ").trim();
+
+          //duration handling
+          const [hours, minutes, seconds] = data.duration
+            .split(/[hms]/)
+            .map(Number);
+          const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+          //thumbnail_url handling
+          const thumbnailUrl = data.thumbnail_url
+            .replace(/%{width}/, "320")
+            .replace(/%{height}/, "180");
+
+          const res = {
+            title: titleString,
+            lengthSec: totalSeconds,
+            thumbnail: thumbnailUrl,
+            streamer: data.user_name,
+            views: data.view_count,
+            language: data.language,
+          };
+
+          const id = await prisma.Video.update({
+            where: {
+              videoId: +videoId,
+            },
+            data: res,
+          });
+          console.log(id);
+        });
     }
-    // getVideoData();
+
     const { status } = await getComments();
     return res.status(200).send({ status: status });
   } catch (error) {
