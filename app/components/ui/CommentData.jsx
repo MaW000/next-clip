@@ -1,6 +1,7 @@
 import React from "react";
 
 const CommentData = ({ data, className, player }) => {
+  
   return (
     <div
       className={`my-5 flex h-[300px] w-[350px] flex-col rounded-md font-sans ${className}`}

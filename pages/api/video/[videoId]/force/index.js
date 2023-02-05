@@ -73,7 +73,7 @@ const handler = async (req, res) => {
             if (hasNextPage) {
               counter++;
               console.log(second);
-              if (counter > 150) {
+              if (counter > 100) {
                 const addTag = await prisma.Video.update({
                   where: {
                     videoId: +videoId,

@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const baseStyles = {
-  col: "mt-20 flex  flex-col justify-center lg:space-x-5 ml-5 md:ml-7 lg:ml-0 lg:flex-row",
+  col: "mt-10 flex  flex-col justify-center lg:space-x-5 ml-5 md:ml-7 lg:ml-0 lg:flex-row",
   row: "mt-10 flex h-[46px] flex-row justify-center w-[1900px] space-x-5",
 };
 const variantStyles = {

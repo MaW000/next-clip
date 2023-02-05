@@ -15,7 +15,7 @@ const handler = async (req, res) => {
       });
 
       const comments = messageArrays.messages;
-      // console.log(comments.length);
+    
       //build a object that has the intervals of the video as keys and comments typed within that interval as values
       let results = {};
       if (messageArrays.id === 0) {
