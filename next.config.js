@@ -8,6 +8,7 @@ const nextConfig = {
       "github.com",
       "lh3.googleusercontent.com",
       "static-cdn.jtvnw.net",
+      "vod-secure.twitch.tv",
     ],
   },
 };

@@ -132,8 +132,9 @@ const handler = async (req, res) => {
 
             if (hasNextPage) {
               counter++;
-              console.log(second);
+
               if (counter > 150) {
+                console.log(second);
                 const updateComments = await prisma.Comments.update({
                   where: {
                     id: commentId,
@@ -149,7 +150,6 @@ const handler = async (req, res) => {
                 counter = 0;
                 commentsArr = [];
                 if (updateComments.messages.length > 290) {
-                  console.log(second, "SAVING COMMENTS");
                   commentIndex++;
                   createNew = true;
                   return getComments(cursor, commentId);
