@@ -101,7 +101,7 @@ const VideoData = ({ videoId, className, player }) => {
         onClick={() => {
           forceDelete();
         }}
-        className="absolute bottom-0 left-0 right-0 row-start-6 mx-auto  my-5 w-56  justify-center rounded-md bg-slate-800  py-2  text-center text-2xl font-semibold text-slate-900"
+        className="absolute bottom-0 left-0 right-0 row-start-6 mx-auto  my-5 w-56  justify-center rounded-md bg-slate-600 py-2  text-center  text-2xl font-semibold text-slate-400"
       >
         Delete Comments
       </button>

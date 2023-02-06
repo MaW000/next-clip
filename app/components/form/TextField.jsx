@@ -2,17 +2,15 @@ import clsx from "clsx";
 import { forwardRef } from "react";
 const formClasses = {
   textLeft: "min-w-full min-h-[30px] rounded-md px-2 focus:outline-none",
-  center: "min-w-full min-h-[30px] rounded-md  focus:outline-none text-center",
+  center:
+    "min-w-full min-h-[30px] rounded-md text-black text-slate-400 placeholder:text-slate-400 focus:outline-none text-center",
   centerNum:
-    "min-w-full min-h-[30px]   rounded-md  focus:outline-none text-center ",
+    "min-w-full min-h-[30px] rounded-md text-black text-slate-400 focus:outline-none text-center ",
 };
 
 const Label = ({ id, children }) => {
   return (
-    <label
-      htmlFor={id}
-      className="text-custom-extralightpurple text-xs font-medium"
-    >
+    <label htmlFor={id} className="text-xs font-medium">
       {children}
     </label>
   );

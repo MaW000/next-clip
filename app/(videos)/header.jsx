@@ -34,7 +34,7 @@ const Header = () => {
           />
           <button
             onClick={handleUrl}
-            className="float-right w-[10%] rounded-r-lg bg-slate-600 py-2 px-4 text-xl"
+            className="float-right w-[10%] rounded-r-lg bg-slate-600 py-2 px-4 text-xl font-semibold text-slate-400"
           >
             Search
           </button>
