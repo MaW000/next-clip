@@ -132,9 +132,9 @@ const handler = async (req, res) => {
 
             if (hasNextPage) {
               counter++;
-
+              console.log(second);
               if (counter > 150) {
-                console.log(second);
+              
                 const updateComments = await prisma.Comments.update({
                   where: {
                     id: commentId,
@@ -308,7 +308,7 @@ const handler = async (req, res) => {
             },
             data: res,
           });
-          console.log(id);
+         
         });
     }
 

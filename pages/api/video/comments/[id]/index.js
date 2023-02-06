@@ -5,20 +5,23 @@ const handler = async (req, res) => {
     try {
       const { id } = req.query;
       const { keyword, num, interval } = req.body;
-
+     
       //fetch comments using videoId
       const messageArrays = await prisma.Comments.findFirst({
         where: {
           videoId: +id,
           hasNextPage: false,
         },
+        select: {
+          index: true,
+        },
       });
-
-      const comments = messageArrays.messages;
+   
+      const comments = messageArrays;
     
       //build a object that has the intervals of the video as keys and comments typed within that interval as values
       let results = {};
-      if (messageArrays.id === 0) {
+      if (messageArrays.index === 0) {
         for (let i = 0; i < comments.length - 1; i++) {
           for (let j = 0; j < comments[i].msgs.length; j++) {
             function timeCalc(sec) {
