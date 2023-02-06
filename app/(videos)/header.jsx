@@ -21,8 +21,14 @@ const Header = () => {
     <header className="bg-[#242424] py-6 px-5">
       <nav className="center flex items-center text-sm font-medium uppercase tracking-wider text-stone-500">
         <div className="w-11/12 ">
+          <button
+            onClick={() => router.push("/")}
+            className="ml-5 rounded-l-lg bg-slate-600 px-1 py-2 text-xl font-semibold text-purple-400"
+          >
+            PoginChat
+          </button>
           <input
-            className="ml-5 w-[77%] rounded-lg py-2 indent-2 text-xl"
+            className="rounded-r-lg-lg w-[70%] py-2 indent-2 text-xl"
             placeholder="Vod url / Id"
             onChange={(e) => setUrl(e.target.value)}
           />
