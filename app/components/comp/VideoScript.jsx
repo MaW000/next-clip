@@ -32,7 +32,7 @@ const VideoScript = (params) => {
       <VideoData
         player={player}
         videoId={params.videoId}
-        className="col-start-10 col-end-13 row-span-full ml-[-2.5rem] mr-10 rounded-lg bg-slate-700"
+        className="relative col-start-10 col-end-13 row-span-full  ml-[-2.5rem] mr-10  rounded-lg bg-slate-700"
       />
     </div>
   );

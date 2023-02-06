@@ -86,20 +86,22 @@ const VideoData = ({ videoId, className, player }) => {
           </div>
         </div>
       )}
-      <div className="m-12 flex justify-center rounded-lg bg-slate-800">
-        {data && (
-          <CommentData
-            data={data}
-            player={player}
-            className={"items-center justify-center text-center align-middle"}
-          />
-        )}
-      </div>
+      {data && (
+        <div className="row-start-3 m-12 flex  justify-center rounded-lg bg-slate-800">
+          {data && (
+            <CommentData
+              data={data}
+              player={player}
+              className={"items-center justify-center text-center align-middle"}
+            />
+          )}
+        </div>
+      )}
       <button
         onClick={() => {
           forceDelete();
         }}
-        className="mx-32  my-5 justify-center rounded-md bg-slate-800 px-1 py-2  text-center text-2xl font-semibold text-slate-900"
+        className="absolute bottom-0 left-0 right-0 row-start-6 mx-auto  my-5 w-56  justify-center rounded-md bg-slate-800  py-2  text-center text-2xl font-semibold text-slate-900"
       >
         Delete Comments
       </button>
