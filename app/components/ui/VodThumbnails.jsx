@@ -16,27 +16,17 @@ const VodThumbnails = ({}) => {
       .then((res) => {
         setVideos(res.data);
       });
-    fetch("http://www.colourlovers.com/api/palettes?format=json", {
-      method: "GET",
-      headers: [
-        ["Content-Type", "application/json"],
-        ["Content-Type", "text/plain"],
-      ],
-      mode: "no-cors",
-    })
-      .then(async (res) => console.log(res))
-      .then((res) => {
-        console.log(res);
-      });
   }, []);
+
   return (
     <div
       className={`mx-auto mt-10 flex gap-4 rounded-lg bg-slate-500 p-5 ${
-        videos.length >= 1 ? "" : "hidden"
+        videos.length > 1 ? "" : "hidden"
       }`}
     >
-      {videos.length >= 1 &&
+      {videos.length > 1 &&
         videos.map((video, i) => {
+          console.log(video);
           return (
             <div
               key={i}
@@ -48,8 +38,8 @@ const VodThumbnails = ({}) => {
               <div className={"relative"}>
                 <Image
                   src={video.thumbnail}
-                  height="170"
-                  width={"320"}
+                  height="90"
+                  width={"160"}
                   alt="thumbnail"
                 />
                 <h1 className="absolute top-0 right-0 rounded-bl-md bg-black px-2 text-center font-mono text-xs font-semibold leading-4 text-white">

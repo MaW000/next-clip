@@ -13,7 +13,7 @@ const handler = async (req, res) => {
         videoId: true,
       },
     });
-
+    console.log(messageArrays);
     return res.status(200).send({ data: messageArrays });
   } catch (error) {
     return res.status(500).json({ error: error.message });
