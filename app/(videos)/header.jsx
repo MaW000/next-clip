@@ -41,7 +41,7 @@ const Header = () => {
         </div>
 
         <ul className="ml-auto">
-          <li className="mr-10">
+          <li className="mr-10 rounded-md bg-slate-700 py-1  px-1">
             <LoginButton />
           </li>
         </ul>
