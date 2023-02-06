@@ -62,6 +62,7 @@ model Video {
   streamer  String?
   views     Int?
   language  String?
+  date      String?
   comments  Comments[]
   complete  Boolean
 }

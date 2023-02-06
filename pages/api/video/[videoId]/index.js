@@ -132,9 +132,9 @@ const handler = async (req, res) => {
 
             if (hasNextPage) {
               counter++;
-              console.log(second);
+
               if (counter > 150) {
-              
+                console.log(second);
                 const updateComments = await prisma.Comments.update({
                   where: {
                     id: commentId,
@@ -259,6 +259,7 @@ const handler = async (req, res) => {
               getComments(lastCommentCursor, commentsDoc.id);
               return { status: "saving" };
             } else if (id[0].complete) {
+              getVideoData(+videoId);
               return { status: "saved" };
             } else {
               return { status: "fetching" };
@@ -280,7 +281,8 @@ const handler = async (req, res) => {
           data = data[0];
 
           //Title handling
-          const titleString = data.title.replace(/[^a-z]/gi, " ").trim();
+          let titleString = data.title.replace(/[^a-z]/gi, " ").trim();
+          titleString = titleString.replace(/\s\s+/g, " ");
 
           //duration handling
           const [hours, minutes, seconds] = data.duration
@@ -289,9 +291,18 @@ const handler = async (req, res) => {
           const totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
           //thumbnail_url handling
-          const thumbnailUrl = data.thumbnail_url
-            .replace(/%{width}/, "320")
-            .replace(/%{height}/, "180");
+          let thumbnailUrl = "";
+          if (data.thumbnail_url.includes("vod-secure")) {
+            thumbnailUrl = data.thumbnail_url
+              .replace(/%{width}/, "320")
+              .replace(/%{height}/, "180");
+          } else {
+            thumbnailUrl = data.thumbnail_url
+              .replace(/%{width}/, "480")
+              .replace(/%{height}/, "270");
+          }
+          //created_at  handling
+          let date = data.created_at.split("T");
 
           const res = {
             title: titleString,
@@ -300,6 +311,7 @@ const handler = async (req, res) => {
             streamer: data.user_name,
             views: data.view_count,
             language: data.language,
+            date: date[0],
           };
 
           const id = await prisma.Video.update({
@@ -308,7 +320,6 @@ const handler = async (req, res) => {
             },
             data: res,
           });
-         
         });
     }
 

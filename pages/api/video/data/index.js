@@ -11,6 +11,7 @@ const handler = async (req, res) => {
         thumbnail: true,
         language: true,
         videoId: true,
+        date: true,
       },
     });
 

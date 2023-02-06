@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const CommentData = ({ data, className, player }) => {
   const [comments, setComments] = useState(null);
   const [selTime, setSelTime] = useState(null);
-  console.log(comments);
+  console.log(data);
   return (
     <div
       className={`relative my-5 flex h-[300px] w-[400px] flex-col rounded-md font-sans ${className}`}
