@@ -67,6 +67,14 @@ model Video {
   complete  Boolean
 }
 
+model Card {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  keyword    String
+  occurences Int
+  length     Int
+  comments   Json[]
+}
+
 model Comments {
   id                String     @id @default(auto()) @map("_id") @db.ObjectId
   videoId           Int
