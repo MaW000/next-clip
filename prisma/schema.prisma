@@ -68,11 +68,16 @@ model Video {
 }
 
 model Card {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   keyword    String
-  occurences Int
-  length     Int
-  comments   Json[]
+  occurences String
+  length     String
+  Result     Result[]
+}
+
+type Result {
+  timeStamp String
+  msgs      msg[]
 }
 
 model Comments {
@@ -92,6 +97,6 @@ type Messages {
 
 type msg {
   cursor               String?
-  contentOffsetSeconds Int
+  contentOffsetSeconds Int?
   msg                  String
 }
