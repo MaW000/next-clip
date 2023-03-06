@@ -73,7 +73,7 @@ const handler = async (req, res) => {
             if (hasNextPage) {
               return getComments(cursor, commentsDoc.id);
             } else {
-              console.log("saving complete");
+          
             }
           });
       } else if (cursor) {
@@ -260,6 +260,7 @@ const handler = async (req, res) => {
               return { status: "saving" };
             } else if (id[0].complete) {
               getVideoData(+videoId);
+        
               return { status: "saved" };
             } else {
               return { status: "fetching" };

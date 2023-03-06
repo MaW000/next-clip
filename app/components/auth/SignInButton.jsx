@@ -10,7 +10,7 @@ const SignInButton = () => {
     return (
       <div className="flex gap-2">
         <button
-          className="text-sm font-medium uppercase tracking-wider text-stone-500"
+          className="text-sm font-medium uppercase tracking-wider text-slate-400"
           onClick={() => signOut()}
         >
           Sign Out
@@ -41,7 +41,7 @@ const SignInButton = () => {
 
   return (
     <button
-      className="text-sm font-medium uppercase tracking-wider text-stone-500"
+      className="text-sm font-medium uppercase tracking-wider text-slate-400"
       onClick={() => signIn()}
     >
       Sign In

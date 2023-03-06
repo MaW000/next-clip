@@ -67,6 +67,22 @@ model Video {
   complete  Boolean
 }
 
+model Card {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  videoId Int
+  keyword String
+  average Int
+  max     Int
+  length  Int
+  Result  Result[]
+}
+
+type Result {
+  timeStamp String
+  count     Int
+  msgs      msg[]
+}
+
 model Comments {
   id                String     @id @default(auto()) @map("_id") @db.ObjectId
   videoId           Int
@@ -84,6 +100,6 @@ type Messages {
 
 type msg {
   cursor               String?
-  contentOffsetSeconds Int
+  contentOffsetSeconds Int?
   msg                  String
 }

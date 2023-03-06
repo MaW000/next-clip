@@ -4,7 +4,6 @@ import TextField from "./TextField";
 const VodInputs = ({ handleData }) => {
   const [data, setData] = useState({
     keyword: "",
-    num: "",
     interval: "",
   });
   return (
@@ -23,24 +22,13 @@ const VodInputs = ({ handleData }) => {
             }
             placeholder="Enter a keyword"
           />
-          <TextField
-            id="num"
-            name="num"
-            variant="centerNum"
-            type="number"
-            className="mt-2 w-[100px]"
-            value={data.num}
-            onChange={(e) =>
-              setData((prev) => ({ ...prev, num: e.target.value }))
-            }
-            placeholder="Number of occurences"
-          />
+
           <TextField
             id="interval"
             name="interval"
             variant="center"
             type="number"
-            className="mt-2 w-[100px]"
+            className="mt-2 w-[100px] "
             value={data.interval}
             onChange={(e) =>
               setData((prev) => ({ ...prev, interval: e.target.value }))

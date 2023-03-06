@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const CommentData = ({ data, className, player }) => {
   const [comments, setComments] = useState(null);
   const [selTime, setSelTime] = useState(null);
-  console.log(data);
+ 
   return (
     <div
       className={`relative my-5 flex h-[300px] w-[400px] flex-col rounded-md font-sans ${className}`}
@@ -31,7 +31,7 @@ const CommentData = ({ data, className, player }) => {
             <div className="text-start">
               {data &&
                 Object.keys(data).map((time, i) => {
-                  // console.log(data[time]);
+             
                   return (
                     <div className="flex gap-5" key={i}>
                       <button
@@ -74,7 +74,7 @@ const CommentData = ({ data, className, player }) => {
           </div>
           <div className="scrollbar overflow-hidden overflow-y-scroll">
             {comments.map((comment, i) => {
-              console.log(comment);
+            
               return (
                 <div key={i}>
                   <h1 className=" mt-2 overflow-hidden truncate bg-black">

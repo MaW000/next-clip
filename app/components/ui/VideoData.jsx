@@ -1,5 +1,7 @@
 import VodInputs from "@/app/components/form/VodInputs";
 import CommentData from "@/app/components/ui/CommentData";
+import CommentCards from "@/app/components/ui/CommentCards";
+import CommentCard from "./CommentCard";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -7,6 +9,9 @@ import { useRouter } from "next/navigation";
 const VideoData = ({ videoId, className, player }) => {
   const [status, setStatus] = useState(null);
   const [data, setData] = useState(null);
+  const [toggle, setToggle] = useState(false);
+  const [cards, setCards] = useState(null);
+  const [card, setCard] = useState(null);
   const router = useRouter();
   //tells the server to download and save comments to db
   useEffect(() => {
@@ -21,6 +26,17 @@ const VideoData = ({ videoId, className, player }) => {
       .then((res) => {
         setStatus(res.status);
       });
+    const endpointa = `/api/results/${videoId}`;
+    fetch(endpointa, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(async (res) => await res.json())
+      .then((res) => {
+        setCards(res.data);
+      });
   }, [videoId]);
   //sends the paramaters your filtering for and returns filterd data
   function handleData(data) {
@@ -33,9 +49,12 @@ const VideoData = ({ videoId, className, player }) => {
     })
       .then((res) => res.json())
       .then((res) => {
-        const { data } = res;
-
-        setData(data);
+        const { data, error } = res;
+        if (data) {
+          setCards((prev) => [...prev, data]);
+        } else if (error) {
+          console.log(`error ${error}`);
+        }
       });
   }
   function forceFetch() {
@@ -46,9 +65,7 @@ const VideoData = ({ videoId, className, player }) => {
       },
     })
       .then(async (res) => await res.json())
-      .then((res) => {
-        // console.log(res);
-      });
+      .then((res) => {});
   }
   function forceDelete() {
     fetch(`/api/video/${videoId}/delete`, {
@@ -59,12 +76,26 @@ const VideoData = ({ videoId, className, player }) => {
     })
       .then(async (res) => await res.json())
       .then((res) => {
-        console.log(res);
         router.push("/");
       });
   }
+
+  function handleClick(cardData) {
+    setToggle(!toggle);
+
+    if (card === null) {
+      setCard(cardData);
+    } else {
+      setCard(null);
+    }
+  }
+
   return (
-    <div className={className}>
+    <div
+      className={
+        "relative col-start-10 col-end-13 row-span-full  ml-[-2.5rem] mr-10  rounded-lg bg-slate-700"
+      }
+    >
       {status === "saved" && (
         <VodInputs status={status} handleData={handleData} />
       )}
@@ -86,25 +117,21 @@ const VideoData = ({ videoId, className, player }) => {
           </div>
         </div>
       )}
-      {data && (
-        <div className="row-start-3 m-12 flex  justify-center rounded-lg bg-slate-800">
-          {data && (
-            <CommentData
-              data={data}
-              player={player}
-              className={"items-center justify-center text-center align-middle"}
-            />
-          )}
-        </div>
+
+      {cards && !toggle && (
+        <CommentCards data={cards} handleClick={handleClick} />
       )}
-      <button
+      {card && toggle && (
+        <CommentCard card={card} player={player} handleClick={handleClick} />
+      )}
+      {/* <button
         onClick={() => {
           forceDelete();
         }}
         className="absolute bottom-0 left-0 right-0 row-start-6 mx-auto  my-5 w-56  justify-center rounded-md bg-slate-600 py-2  text-center  text-2xl font-semibold text-slate-400"
       >
         Delete Comments
-      </button>
+      </button> */}
     </div>
   );
 };

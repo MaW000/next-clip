@@ -23,12 +23,12 @@ const Header = () => {
         <div className={`ml-10 w-[69.4%]`}>
           <Link
             href="/"
-            className="inline-block w-[10%] rounded-l-lg bg-slate-600  px-1 py-2 text-xl font-semibold text-purple-400 underline underline-offset-8"
+            className="inline-block w-[15%] rounded-l-lg bg-slate-600  px-1 py-2 text-xl font-semibold text-purple-400 underline underline-offset-8"
           >
             PoginChat
           </Link>
           <input
-            className="w-[80%] py-2 indent-2 text-xl"
+            className="w-[75%] py-2 indent-2 text-xl"
             placeholder="Vod url / Id"
             onChange={(e) => setUrl(e.target.value)}
           />
@@ -41,7 +41,7 @@ const Header = () => {
         </div>
 
         <ul className="ml-auto">
-          <li className="mr-10 rounded-md bg-slate-700 py-1  px-1">
+          <li className="mr-10 rounded-md bg-slate-700 py-2  px-3">
             <LoginButton />
           </li>
         </ul>
