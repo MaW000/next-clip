@@ -68,15 +68,18 @@ model Video {
 }
 
 model Card {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  keyword    String
-  occurences String
-  length     String
-  Result     Result[]
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  videoId Int
+  keyword String
+  average Int
+  max     Int
+  length  Int
+  Result  Result[]
 }
 
 type Result {
   timeStamp String
+  count     Int
   msgs      msg[]
 }
 
