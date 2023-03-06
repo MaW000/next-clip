@@ -100,9 +100,15 @@ const handler = async (req, res) => {
             for (let j = 0; j < comments[i].msgs.length; j++) {
               function timeCalc(sec) {
                 const minutes = Math.floor(sec / 60);
-                const extraSec = sec % 60;
-                const extraMinutes = minutes % 60;
+                let extraSec = sec % 60;
+                let extraMinutes = minutes % 60;
                 const hours = Math.floor(minutes / 60);
+                if (extraSec < 10) {
+                  extraSec = "0" + extraSec;
+                }
+                if (extraMinutes < 10) {
+                  extraMinutes = "0" + extraMinutes;
+                }
                 return `${hours}h:${extraMinutes}m:${extraSec}s`;
               }
               const text = comments[i].msgs[j].msg.toLowerCase();
@@ -112,10 +118,6 @@ const handler = async (req, res) => {
               const begin = x * interval;
               const end = (x + 1) * interval;
               const currTimea = timeCalc(begin) + " : " + timeCalc(end);
-
-              // if (results[results.length - 1].timeStamp != currTimea) {
-              //   results.push({ timeStamp: currTimea, msgs: [] });
-              // }
 
               if (text.includes(keyword)) {
                 count++;
