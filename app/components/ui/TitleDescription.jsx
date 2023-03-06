@@ -9,9 +9,9 @@ const TitleDescription = () => {
       >
         PogInChat
       </h1>
-      <p className="text-md font-medium text-white text-center px-5 md:text-lg lg:text-xl">
-        Upload a URL from a <span className="text-purple-400">Twitch VOD</span>{" "}
-        and find your most{" "}
+      <p className="text-md px-5 text-center font-medium text-white md:text-lg lg:text-xl">
+        Paste in a <span className="text-purple-400">Twitch VOD</span> and find
+        the most{" "}
         <span className="font-bold uppercase text-red-500">
           hype moments!!!
         </span>
